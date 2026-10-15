@@ -1,0 +1,72 @@
+name = "bold-river-9b3b"
+main = "src/index.js"
+compatibility_date = "2026-10-14"
+workers_dev = true
+upload_source_maps = true
+
+[observability]
+enabled = true
+
+# Workers AI is the only mandatory platform binding in the core.
+# AI Gateway is selected at request time through ASTON_AI_GATEWAY.
+[ai]
+binding = "AI"
+
+[vars]
+ASTON_BRAND_NAME = "Lane & Aston"
+ASTON_TENANT_ID = "laneaston"
+ASTON_AI_GATEWAY = "default"
+ASTON_RATE_LIMIT = "60"
+ASTON_TURNSTILE_ENFORCE = "0"
+ASTON_MODERATION = "1"
+
+# Optional resources are deliberately NOT declared here.
+# Provision them first, then add the corresponding binding to the target
+# environment. This keeps GitHub dry-run/install independent of absent IDs.
+#
+# Durable Objects:
+# [[durable_objects.bindings]]
+# name = "RATE_LIMITER"
+# class_name = "RateLimiterDurableObject"
+#
+# [[durable_objects.bindings]]
+# name = "SESSION"
+# class_name = "SessionDurableObject"
+#
+# [[migrations]]
+# tag = "v1"
+# new_sqlite_classes = ["RateLimiterDurableObject", "SessionDurableObject"]
+#
+# Workflows:
+# [[workflows]]
+# name = "aston-video-generation"
+# binding = "VIDEO_WORKFLOW"
+# class_name = "VideoGenerationWorkflow"
+#
+# KV / D1 / R2 / Queues are opt-in bindings; the runtime detects absence and
+# returns an explicit capability-unavailable response instead of crashing.
+
+[env.staging]
+name = "bold-river-9b3b-staging"
+workers_dev = true
+[env.staging.vars]
+ASTON_BRAND_NAME = "Lane & Aston"
+ASTON_TENANT_ID = "laneaston-staging"
+ASTON_AI_GATEWAY = "default"
+ASTON_RATE_LIMIT = "30"
+ASTON_TURNSTILE_ENFORCE = "0"
+ASTON_MODERATION = "1"
+
+[env.production]
+name = "bold-river-9b3b"
+workers_dev = true
+[env.production.vars]
+ASTON_BRAND_NAME = "Lane & Aston"
+ASTON_TENANT_ID = "laneaston"
+ASTON_AI_GATEWAY = "default"
+ASTON_RATE_LIMIT = "60"
+ASTON_TURNSTILE_ENFORCE = "0"
+ASTON_MODERATION = "1"
+
+# Production custom domain/routes can be attached after the real zone exists.
+# Do not commit account-specific IDs or secrets.
